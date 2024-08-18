@@ -1,0 +1,46 @@
+.full-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-top: -30px;
+    height: 100vh;
+
+    img {
+      width: 230px;
+      height: 230px;
+  }
+  }
+  
+  .button-layout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .start-button {
+        background-color: #1375FA;
+        color: white;
+        width: calc(100% - 40px); 
+        max-width: 100%;
+        border-radius: 48px;
+        text-align: center;
+        margin-bottom: 30px; 
+
+        h6 {
+            font-size: 19px;
+            font-weight: 400;
+        }
+      }
+  }
