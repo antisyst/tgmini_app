@@ -192,16 +192,6 @@
 .modal-content {
   width: 100%;
 
-  .modal {
-    width: 90%;
-    max-width: 600px;
-    height: 500px;
-    padding: 20px;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    overflow: hidden;
-  }
-
   .input-wrapper {
     width: 100%;
 
@@ -236,3 +226,13 @@
     }
   }
 }
+
+.modal {
+    width: 90%;
+    max-width: 600px;
+    height: 500px;
+    padding: 20px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    overflow: hidden;
+  }
