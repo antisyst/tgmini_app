@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Input, Modal } from '@telegram-apps/telegram-ui';
+import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Modal } from '@telegram-apps/telegram-ui';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -344,7 +344,7 @@ const NewContractPage: React.FC = () => {
                 <div className="form-body-item">
                   <Text className="area-label">Дата окончания договора</Text>
                   <div className="form-input">
-                    <Input
+                    <input
                       type="text"
                       value={date}
                       onClick={openDateModal}
@@ -387,7 +387,7 @@ const NewContractPage: React.FC = () => {
 
           {/* Conditionally render native iOS spinner-style date picker */}
           {isIOS() ? (
-            <Input
+            <input
               type="date"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
@@ -395,7 +395,7 @@ const NewContractPage: React.FC = () => {
               className="ios-date-picker"
             />
           ) : (
-            <Input
+            <input
               type="text"
               value={tempDate}
               onChange={handleDateChange}
