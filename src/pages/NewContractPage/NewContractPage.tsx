@@ -227,7 +227,12 @@ const NewContractPage: React.FC = () => {
                     onFocus={() => handleFocus('obligation1')}
                     className="textarea"
                     status={errors.obligation1 ? 'error' : 'default'}
-                    inputMode="text"  // Ensures "Done" on iOS keyboard
+                    inputMode="text" 
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.currentTarget.blur();
+                      }
+                    }}
                   />
                 </div>
                 <div className="form-body-item second">
@@ -241,6 +246,11 @@ const NewContractPage: React.FC = () => {
                     disabled={selectedParty}
                     status={errors.obligation2 ? 'error' : 'default'}
                     inputMode="text"  // Ensures "Done" on iOS keyboard
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.currentTarget.blur();
+                      }
+                    }}
                   />
                 </div>
                 <div className="checkbox-container">
@@ -285,6 +295,11 @@ const NewContractPage: React.FC = () => {
                     className="textarea"
                     status={errors.responsibility1 ? 'error' : 'default'}
                     inputMode="text"  // Ensures "Done" on iOS keyboard
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.currentTarget.blur();
+                      }
+                    }}
                   />
                 </div>
                 <div className="form-body-item">
@@ -298,6 +313,11 @@ const NewContractPage: React.FC = () => {
                     disabled={selectedParty}
                     status={errors.responsibility2 ? 'error' : 'default'}
                     inputMode="text"  // Ensures "Done" on iOS keyboard
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.currentTarget.blur();
+                      }
+                    }}
                   />
                 </div>
                 <div className="checkbox-container">
