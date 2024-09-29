@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Input, Modal } from '@telegram-apps/telegram-ui';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
@@ -56,6 +56,8 @@ const NewContractPage: React.FC = () => {
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const [tempDate, setTempDate] = useState(date);
   const hapticFeedback = useHapticFeedback();
+  
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setDate(getFormattedDate(new Date()));
@@ -155,16 +157,15 @@ const NewContractPage: React.FC = () => {
     setSelectedParty(!selectedParty);
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/[^\d]/g, '');
-    const formattedDate = input.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3');
-    setTempDate(formattedDate);
-  };
-
   const openDateModal = () => {
     hapticFeedback.impactOccurred('medium');
     setTempDate(date);
     setIsDateModalOpen(true);
+
+    // Auto-focus the date input to show the picker dropdown immediately
+    setTimeout(() => {
+      dateInputRef.current?.focus();
+    }, 300); // Adding a slight delay for the modal to open properly
   };
 
   const closeDateModal = () => {
@@ -390,7 +391,8 @@ const NewContractPage: React.FC = () => {
               type="date"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
-              className="input date-input"
+              ref={dateInputRef} // Attach the ref to focus it
+              className="ios-date-picker"
             />
           ) : (
             <Input
