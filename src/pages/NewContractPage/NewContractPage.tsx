@@ -8,6 +8,29 @@ import axios from 'axios';
 import ArrowIcon from '../../assets/arrow.svg';
 import './NewContractPage.scss';
 
+// Utility functions moved from utils
+const getFormattedDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear());
+  return `${day}.${month}.${year}`;
+};
+
+const getFormattedDateForBackend = (date: string): string => {
+  const [day, month, year] = date.split('.');
+  return `${year}-${month}-${day}`;
+};
+
+const validateDate = (input: string): boolean => {
+  const datePattern = /^\d{2}\.\d{2}\.\d{4}$/;
+  if (!datePattern.test(input)) {
+    return false;
+  }
+  const [day, month, year] = input.split('.').map(Number);
+  const dateObj = new Date(year, month - 1, day);
+  return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
+};
+
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,29 +66,6 @@ const NewContractPage: React.FC = () => {
       setCurrentStep(1);
     }
   };
-
-  const getFormattedDate = (date: Date): string => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear());
-    return `${day}.${month}.${year}`;
-  };
-
- const getFormattedDateForBackend = (date: string): string => {
-    const [day, month, year] = date.split('.');
-    return `${year}-${month}-${day}`;
-  };  
-
-  const validateDate = (input: string): boolean => {
-    const datePattern = /^\d{2}\.\d{2}\.\d{4}$/;
-    if (!datePattern.test(input)) {
-      return false;
-    }
-    const [day, month, year] = input.split('.').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
-  };  
-  
 
   const handleContinue = async () => {
     hapticFeedback.impactOccurred('medium');
@@ -181,7 +181,7 @@ const NewContractPage: React.FC = () => {
   };
 
   return (
-    <AppRoot>
+     <AppRoot>
       <FixedLayout vertical="top" className="full-obl-screen">
         <div className="obligations-layout">
           <div className="header-container">
@@ -402,3 +402,4 @@ const NewContractPage: React.FC = () => {
 };
 
 export default NewContractPage;
+
