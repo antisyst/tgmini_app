@@ -392,7 +392,7 @@ const NewContractPage: React.FC = () => {
             </div>
             <FixedLayout vertical='bottom' className='bottom'>
               <Button onClick={saveDate} className="save-button">
-                save
+                Сохранить
               </Button>
             </FixedLayout>
         </div>
