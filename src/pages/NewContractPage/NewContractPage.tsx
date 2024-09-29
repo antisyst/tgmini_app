@@ -1,399 +1,151 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Input, Modal } from '@telegram-apps/telegram-ui';
-import { useHapticFeedback } from '@telegram-apps/sdk-react';
-import { retrieveLaunchParams } from '@telegram-apps/sdk';
+import { AppRoot, Button, FixedLayout, Text, Input, Cell, Avatar, Modal, Spinner, Caption } from '@telegram-apps/telegram-ui';
 import { motion, AnimatePresence } from 'framer-motion';
+import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import axios from 'axios';
-import ArrowIcon from '../../assets/arrow.svg';
 import './NewContractPage.scss';
+import ArrowIcon from '../../assets/arrow.svg';
+import SearchIcon from '../../assets/search.svg';
+import CloseIcon from '../../assets/banner_close.svg';
+
+interface Contact {
+  telegram_id: string;
+  avatar_url: string;
+  full_name?: string;
+}
 
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedContact } = location.state || {};
+  const contactsFromState = location.state?.contacts || [];
+  const [contacts, setContacts] = useState<Contact[]>(contactsFromState);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [isContinuing, setIsContinuing] = useState<boolean>(false);
 
-  const getFormattedDate = (date: Date): string => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear());
-    return `${day}.${month}.${year}`;
+  const handleSelectContact = (contact: Contact) => {
+    setSelectedContact(contact);
+    setIsModalOpen(true);
   };
 
-  const validateDate = (input: string): boolean => {
-    const datePattern = /^\d{2}\.\d{2}\.\d{4}$/;
-    if (!datePattern.test(input)) {
-      return false;
-    }
-    const [day, month, year] = input.split('.').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
+  const handleContinue = () => {
+    setIsContinuing(true);
+    setTimeout(() => {
+      setIsContinuing(false);
+      setIsModalOpen(false);
+      navigate('/obligations', { state: { selectedContact } });
+    }, 3000);
   };
 
-  const [obligation1, setObligation1] = useState('');
-  const [obligation2, setObligation2] = useState('');
-  const [responsibility1, setResponsibility1] = useState('');
-  const [responsibility2, setResponsibility2] = useState('');
-  const [selectedParty, setSelectedParty] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [errors, setErrors] = useState({
-    obligation1: false,
-    obligation2: false,
-    responsibility1: false,
-    responsibility2: false,
-    date: false,
-  });
-  const [date, setDate] = useState(getFormattedDate(new Date()));
-  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
-  const [tempDate, setTempDate] = useState(date);
-  const hapticFeedback = useHapticFeedback();
+  const handleSearch = async (query: string) => {
+    setSearchQuery(query);
 
-  useEffect(() => {
-    setDate(getFormattedDate(new Date()));
-  }, []);
+    try {
+      const userId = retrieveLaunchParams()?.initData?.user?.id;
+      const response = await axios.post(`http://localhost:8000/contact/find_contacts`, {
+        telegramId: `@${userId}`,
+        searchLine: query,
+      });
 
-  const handleBack = () => {
-    hapticFeedback.impactOccurred('medium');
-    if (currentStep === 1) {
-      navigate(-1);
-    } else {
-      setCurrentStep(1);
+      const foundContacts = response.data.data.contactList;
+      setContacts(foundContacts);
+    } catch (error) {
+      console.error('Failed to search contacts:', error);
     }
   };
 
-  const getFormattedDateForBackend = (date: string): string => {
-    const [day, month, year] = date.split('.');
-    return `${year}-${month}-${day}`;
-  };
-
-  const handleContinue = async () => {
-    hapticFeedback.impactOccurred('medium');
-    let hasError = false;
-    const newErrors = { obligation1: false, obligation2: false, responsibility1: false, responsibility2: false, date: false };
-
-    if (currentStep === 1) {
-      if (obligation1.trim() === '') {
-        newErrors.obligation1 = true;
-        hasError = true;
-      }
-      if (!selectedParty && obligation2.trim() === '') {
-        newErrors.obligation2 = true;
-        hasError = true;
-      }
-
-      if (hasError) {
-        setErrors(newErrors);
-        return;
-      }
-
-      setErrors(newErrors);
-      setCurrentStep(2);
-    } else {
-      if (responsibility1.trim() === '') {
-        newErrors.responsibility1 = true;
-        hasError = true;
-      }
-      if (!selectedParty && responsibility2.trim() === '') {
-        newErrors.responsibility2 = true;
-        hasError = true;
-      }
-      if (!validateDate(date)) {
-        newErrors.date = true;
-        hasError = true;
-      }
-
-      if (hasError) {
-        setErrors(newErrors);
-        return;
-      }
-
-      try {
-        const userId = retrieveLaunchParams()?.initData?.user?.id;
-        const payload = {
-          senderId: `@${userId}`,
-          recieverId: selectedContact.telegram_id,
-          senderDuty: obligation1,
-          recieverDuty: obligation2 || 'N/A',
-          senderResponsobility: responsibility1,
-          recieverResponsobility: responsibility2 || 'N/A',
-          agreementDate: getFormattedDateForBackend(date), 
-        };
-
-        const response = await axios.post(`http://localhost:8000/contract/generate_pdf`, payload);
-
-        const { deal_id, pdf_path } = response.data.data;
-
-        navigate('/preview', { state: { pdfPath: pdf_path, dealId: deal_id, selectedContact } });
-      } catch (error) {
-        console.error('Failed to generate PDF:', error);
-      }
-    }
-  };
-
-  const handleFocus = (field: string) => {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [field]: false,
-    }));
-  };
-
-  const handleCheckboxChange = () => {
-    hapticFeedback.impactOccurred('medium');
-    if (!selectedParty) {
-      if (currentStep === 1) {
-        setObligation2('');
-        setErrors((prev) => ({ ...prev, obligation2: false }));
-      } else {
-        setResponsibility2('');
-        setErrors((prev) => ({ ...prev, responsibility2: false }));
-      }
-    }
-    setSelectedParty(!selectedParty);
-  };
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/[^\d]/g, '');
-    const formattedDate = input.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3');
-    setTempDate(formattedDate);
-  };
-
-  const openDateModal = () => {
-    hapticFeedback.impactOccurred('medium');
-    setTempDate(date);
-    setIsDateModalOpen(true);
-  };
-
-  const closeDateModal = () => {
-    hapticFeedback.impactOccurred('medium');
-    setIsDateModalOpen(false);
-  };
-
-  const saveDate = () => {
-    hapticFeedback.impactOccurred('medium');
-    if (validateDate(tempDate)) {
-      setDate(tempDate);
-      setErrors((prevErrors) => ({ ...prevErrors, date: false }));
-      setIsDateModalOpen(false);
-    } else {
-      setErrors((prevErrors) => ({ ...prevErrors, date: true }));
-    }
+  const handleCloseBanner = () => {
+    setIsBannerVisible(false);
   };
 
   return (
     <AppRoot>
-      <FixedLayout vertical="top" className="full-obl-screen">
-        <div className="obligations-layout">
-          <div className="header-container">
-            <Button onClick={handleBack} className="back-button">
+      <FixedLayout vertical="top" className="full-screen">
+        <div className="new-contract-layout">
+          <div className="header">
+            <Button onClick={() => navigate(-1)} className="back-button">
               <img src={ArrowIcon} alt="Back" />
             </Button>
-            <Text className="header-text">
-              {currentStep === 1 ? 'Обязанности сторон' : 'Ответственность сторон'}
-            </Text>
+            <Text Component="h1" className="header-text">Новый договор</Text>
+            <div></div>
           </div>
-          <div className="progress-bar-container">
-            <div
-              style={{
-                backgroundColor: currentStep >= 1 ? '#1375FA' : '#DDEAFE',
-                width: '100%',
-                height: '4px',
-              }}
-            ></div>
-            <div
-              style={{
-                backgroundColor: currentStep >= 2 ? '#1375FA' : '#DDEAFE',
-                width: '100%',
-                height: '4px',
-              }}
-            ></div>
-          </div>
-          <AnimatePresence mode="wait">
-            {currentStep === 1 ? (
+          <AnimatePresence>
+            {isBannerVisible && (
               <motion.div
-                key="step1"
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="stage-form-body"
-                variants={{ initial: { x: 300, opacity: 0 }, animate: { x: 0, opacity: 1 }, exit: { x: -300, opacity: 0 } }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 0 }}
+                transition={{ duration: 0.1 }}
+                className="banner-layout"
               >
-                <div className="form-body-item first">
-                  <Text className="area-label">Обязанность стороны 1 (Вы)</Text>
-                  <Textarea
-                    placeholder="Введите обязанность стороны 1"
-                    value={obligation1}
-                    onChange={(e) => setObligation1(e.currentTarget.value)}
-                    onFocus={() => handleFocus('obligation1')}
-                    className="textarea"
-                    status={errors.obligation1 ? 'error' : 'default'}
-                    inputMode="text" 
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
-                  />
+                <div className="banner-item">
+                  <Caption className='content'>
+                    Выберите контактное лицо, с которым вы хотите подписать договор
+                  </Caption>
+                  <button className="banner-close" onClick={handleCloseBanner}>
+                    <img src={CloseIcon} alt="Close" />
+                  </button>
                 </div>
-                <div className="form-body-item second">
-                  <Text className="area-label">Обязанность стороны 2</Text>
-                  <Textarea
-                    placeholder="Введите обязанность стороны 2"
-                    value={obligation2}
-                    onChange={(e) => setObligation2(e.currentTarget.value)}
-                    onFocus={() => handleFocus('obligation2')}
-                    className="textarea"
-                    disabled={selectedParty}
-                    status={errors.obligation2 ? 'error' : 'default'}
-                    inputMode="text"  // Ensures "Done" on iOS keyboard
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
-                  />
-                </div>
-                <div className="checkbox-container">
-                  <label>
-                    <Checkbox checked={selectedParty} onChange={handleCheckboxChange} />
-                    <Text Component={'p'}>
-                      Заполнит{' '}
-                      {selectedContact ? (
-                        <div className='user-info'>
-                          <Avatar src={selectedContact.avatar_url} size={20} />
-                          <Text Component={'span'}>{selectedContact.telegram_id}</Text>
-                        </div>
-                      ) : (
-                        '@profilename'
-                      )}
-                    </Text>
-                  </label>
-                </div>
-                <FixedLayout vertical="bottom" className="bottom">
-                  <Button onClick={handleContinue} className="continue-button">
-                    Продолжить
-                  </Button>
-                </FixedLayout>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="step2"
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                variants={{ initial: { x: 300, opacity: 0 }, animate: { x: 0, opacity: 1 }, exit: { x: -300, opacity: 0 } }}
-                transition={{ duration: 0.2 }}
-                className="stage-form-body"
-              >
-                <div className="form-body-item">
-                  <Text className="area-label">Ответственность стороны 1 (Вы)</Text>
-                  <Textarea
-                    placeholder="Введите ответственность стороны 1"
-                    value={responsibility1}
-                    onChange={(e) => setResponsibility1(e.currentTarget.value)}
-                    onFocus={() => handleFocus('responsibility1')}
-                    className="textarea"
-                    status={errors.responsibility1 ? 'error' : 'default'}
-                    inputMode="text"  // Ensures "Done" on iOS keyboard
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
-                  />
-                </div>
-                <div className="form-body-item">
-                  <Text className="area-label">Ответственность стороны 2</Text>
-                  <Textarea
-                    placeholder="Введите ответственность стороны 2"
-                    value={responsibility2}
-                    onChange={(e) => setResponsibility2(e.currentTarget.value)}
-                    onFocus={() => handleFocus('responsibility2')}
-                    className="textarea"
-                    disabled={selectedParty}
-                    status={errors.responsibility2 ? 'error' : 'default'}
-                    inputMode="text"  // Ensures "Done" on iOS keyboard
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
-                  />
-                </div>
-                <div className="checkbox-container">
-                  <label>
-                    <Checkbox checked={selectedParty} onChange={handleCheckboxChange} />
-                    <Text Component={'p'}>
-                      Заполнит{' '}
-                      {selectedContact ? (
-                        <div className='user-info'>
-                          <Avatar src={selectedContact.avatar_url} size={20} />
-                          <Text Component={'span'}>{selectedContact.telegram_id}</Text>
-                        </div>
-                      ) : (
-                        '@profilename'
-                      )}
-                    </Text>
-                  </label>
-                </div>
-                <div className="form-body-item">
-                  <Text className="area-label">Дата окончания договора</Text>
-                  <div className="form-input">
-                    <Input
-                      type="text"
-                      value={date}
-                      onClick={openDateModal}
-                      readOnly
-                      className={`input date-input ${errors.date ? 'error' : ''}`}
-                    />
-                  </div>
-                  {errors.date && (
-                    <Text style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      Пожалуйста, введите правильную дату в формате дд.мм.гггг.
-                    </Text>
-                  )}
-                </div>
-                <FixedLayout vertical="bottom" className="bottom">
-                  <Button onClick={handleContinue} className="continue-button">
-                    Завершить
-                  </Button>
-                </FixedLayout>
               </motion.div>
             )}
           </AnimatePresence>
+          <div className="contacts-section">
+            <div className="search-field">
+              <Input
+                placeholder="Поиск контакта"
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.currentTarget.value)}
+                before={<img src={SearchIcon} alt="Search" />}
+                className="search-input"
+              />
+            </div>
+
+            <div className="contact-users">
+              {contacts.length > 0 ? (
+                contacts.map((contact: Contact) => (
+                  <Cell
+                    key={contact.telegram_id}
+                    before={<Avatar src={contact.avatar_url} size={28} />}
+                    after={<img src={ArrowIcon} className='user-arrow' />}
+                    subtitle={contact.telegram_id}
+                    className='cell-item'
+                    onClick={() => handleSelectContact(contact)}
+                  />
+                ))
+              ) : (
+                <Text className="no-contacts-text">Нет доступных контактов</Text>
+              )}
+            </div>
+          </div>
         </div>
       </FixedLayout>
 
       <Modal
-        open={isDateModalOpen}
-        onOpenChange={setIsDateModalOpen}
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
         nested={true}
         overlayComponent={<div className="modal-overlay"></div>}
         modal={true}
         className="modal"
       >
         <div className="modal-header">
-          <Button onClick={closeDateModal} className="modal-close-button">
+          <Button onClick={() => setIsModalOpen(false)} className="modal-close-button">
             Отмена
           </Button>
         </div>
         <div className="modal-content">
-          <Text className="modal-title">Выберите дату окончания</Text>
-            <div className="input-wrapper">
-              <Input
-                type="text"
-                value={tempDate}
-                onChange={handleDateChange}
-                maxLength={10}
-                className="input date-input"
-                placeholder="дд.мм.гггг"
-              />
-            </div>
-            <FixedLayout vertical='bottom' className='bottom'>
-              <Button onClick={saveDate} className="save-button">
-                Сохранить
+          {selectedContact && (
+            <>
+              <Avatar src={selectedContact.avatar_url} size={96} className="selected-user-avatar" />
+              <Text className="selected-username">{selectedContact.telegram_id}</Text>
+              <Button onClick={handleContinue} className="continue-button">
+                {isContinuing ? <Spinner size="m" className='spinner'/> : 'Продолжить'}
               </Button>
-            </FixedLayout>
+            </>
+          )}
         </div>
       </Modal>
     </AppRoot>
