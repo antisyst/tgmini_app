@@ -194,6 +194,8 @@
 
   .input-wrapper {
     width: 100%;
+    border: 2px solid #1375FA;
+    border-radius: 14px;
 
     div {
       padding-top: 0;
@@ -235,4 +237,9 @@
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     overflow: hidden;
+
+    .modal-close-button {
+      background: none;
+      color: #0D0D0D;
+    }
   }
