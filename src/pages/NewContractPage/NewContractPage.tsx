@@ -382,9 +382,6 @@ const NewContractPage: React.FC = () => {
           </Button>
         </div>
         <div className="modal-content">
-          <Text className="modal-title">Выберите дату окончания</Text>
-
-          {/* Conditionally render native iOS spinner-style date picker */}
           {isIOS() ? (
             <Input
               type="date"
