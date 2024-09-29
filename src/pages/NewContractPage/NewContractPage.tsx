@@ -390,7 +390,7 @@ const NewContractPage: React.FC = () => {
               type="date"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
-              className="ios-date-picker"
+              className="input date-input"
             />
           ) : (
             <Input
