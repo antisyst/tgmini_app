@@ -1,180 +1,206 @@
 .full-obl-screen {
-  height: 100%; // Remove 100vh to ensure correct scaling on mobile devices.
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; // Adjusted to ensure content isn't pushed off the screen
-  padding: 0;
-  align-items: center;
-
-  .obligations-layout {
-    width: 100%;
+    height: 100vh;
     display: flex;
-    flex: 1;
-    padding: 20px; // Reduced padding for better fit on smaller screens.
     flex-direction: column;
+    justify-content: center;
+    padding: 0;
     align-items: center;
-    justify-content: flex-start;
-    
-    .header-container {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      position: relative;
-      padding: 0 16px; // Adjust to fit within mobile view
 
-      .back-button {
-        width: 26px;
-        height: 26px;
-        position: absolute;
-        left: 0;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-
-      .header-text {
-        margin: 0 auto;
-        text-align: center;
-      }
-    }
-    
-    .progress-bar-container {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 10px;
-      justify-content: center;
-      gap: 2px;
-      padding: 0 16px; // Adjusted to prevent overflow.
-
-      .progress-item {
-        width: 50%;
-        background-color: #DDEAFE;
-      }
-
-      .progress-bar.active div::after {
-        background-color: #1375FA;
-      }
-    }
-
-    .stage-form-body {
-      width: 100%;
-      padding: 0 16px; // Adjusted padding for mobile responsiveness.
-      margin-top: 10px;
-
-      .form-body-item {
+    .obligations-layout {
         width: 100%;
-        margin-bottom: 16px;
+        display: flex;
+        height: 100vh;
+        padding: 30px 0;
+        flex-direction: column;
+        background: transparent;
+        align-items: center;
+        justify-content: flex-start;
 
-        .area-label {
-          font-size: 16px;
-          padding-bottom: 8px; // Adjust spacing
-          color: #000;
+        .header-container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            position: relative;
+          
+            .back-button {
+              width: 26px;
+              height: 26px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              background: none;
+              position: absolute;
+              left: 0;
+          
+              img {
+                width: 100%;
+                height: auto;
+              }
+            }
+          
+            .header-text {
+              margin: 0 auto; 
+              text-align: center;
+            }
         }
-
-        .textarea {
+        
+        .progress-bar-container {
           width: 100%;
-          height: auto;
-          padding: 10px;
-          border-radius: 8px;
-          border: 1px solid #ddd;
-        }
-      }
-
-      .checkbox-container {
-        padding: 0 16px;
-        margin: 8px 0;
-
-        label {
           display: flex;
           flex-direction: row;
           align-items: center;
-          justify-content: flex-start;
-          gap: 10px;
+          margin-top: 10px;
+          justify-content: center;
+          gap: 2px;
 
-          p {
-            font-size: 15px;
-            display: flex;
+          .progress-item {
+            width: 50%;
+            background-color: #DDEAFE;
+          }
+
+          .progress-bar.active div::after {
+            background-color: #1375FA;
+          }
+        }
+
+        .stage-form-body {
+          width: 100%;
+          margin-top: 10px;
+
+          .form-body-item {
+            width: 100%;
+
+            .area-label {
+              padding-left: 22px;
+              padding-bottom: 8px;
+              font-size: 16px;
+
+              span {
+                color: #1375FA;
+              }
+            }
+
+            div {
+              background: none;
+            }
+
+            label {
+              height: 160px;
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-start;
+              margin-top: -10px;
+              border-radius: 8px;
+              width: 100%;
+              height: 100%;
+
+              textarea {
+                padding: 10px;
+                width: 100%;
+                height: 100%;
+              }
+            }         
             
-            span {
-              margin-left: 8px;
+            .textarea {
+              height: 160px;
             }
           }
 
-          .user-info {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-left: 18px;
-            background: #F9F9F9;
-            border-radius: 4px;
-            padding: 4px 8px;
+          .checkbox-container {
+            padding: 0 22px;
+            margin: 4px;
+            margin-bottom: 7px;
 
-            span {
-              color: #0D0D0D;
+            label {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              gap: 10px;
+
+              p {
+                font-size: 15px;
+                display: flex;
+                
+                span {
+                  font-size: 15px;
+                  margin-left: 8px;
+                }
+              }
+            }
+
+            .user-info {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              margin-left: 18px;
+              background: #F9F9F9;
+              border-radius: 4px;
+              padding: 2px 8px;
+
+              span {
+                color: #0D0D0D;
+              }
             }
           }
         }
-      }
-    }
 
-    .bottom {
-      margin-bottom: 20px;
-      width: 100%;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        .bottom {
+          margin-bottom: 30px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-      button {
-        width: 100%;
-        height: 48px; // Reduced height for buttons
-        background: #1375FA;
-        border-radius: 24px; // Adjust for better rounded corners
+          button {
+            width: 90%;
+            height: 58px;
+            background: #1375FA;
+            border-radius: 48px;
 
-        h6 {
-          font-size: 16px;
-          font-weight: 400;
+            h6 {
+              font-size: 18px;
+              font-weight: 400;
+            }
+          }
         }
-      }
     }
-  }
 }
 
 .modal-content {
   width: 100%;
-  padding: 16px;
 
   .input-wrapper {
     width: 100%;
 
+    div {
+      padding-top: 0;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+
     .date-input {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
     }
   }
 
   .bottom {
-    margin-bottom: 20px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
 
     .save-button {
-      width: 100%;
-      height: 48px;
+      width: 90%;
+      height: 58px;
       background: #1375FA;
-      border-radius: 24px;
+      border-radius: 48px;
 
       h6 {
-        font-size: 16px;
         font-weight: 400;
+        font-size: 18px;
       }
     }
   }
