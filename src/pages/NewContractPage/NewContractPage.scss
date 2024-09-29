@@ -1,33 +1,33 @@
 .full-obl-screen {
-  min-height: 100vh;
+  height: 100%; // Remove 100vh to ensure correct scaling on mobile devices.
   display: flex;
   flex-direction: column;
+  justify-content: space-between; // Adjusted to ensure content isn't pushed off the screen
   padding: 0;
   align-items: center;
 
   .obligations-layout {
     width: 100%;
     display: flex;
-    min-height: 100vh;
-    padding: 10px 20px; // Reduced padding for mobile screens
+    flex: 1;
+    padding: 20px; // Reduced padding for better fit on smaller screens.
     flex-direction: column;
-    background-color: #f9f9f9;
+    align-items: center;
     justify-content: flex-start;
-
+    
     .header-container {
       display: flex;
       width: 100%;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      position: relative;
+      padding: 0 16px; // Adjust to fit within mobile view
 
       .back-button {
         width: 26px;
         height: 26px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        background: none;
+        position: absolute;
+        left: 0;
+
         img {
           width: 100%;
           height: auto;
@@ -35,106 +35,110 @@
       }
 
       .header-text {
+        margin: 0 auto;
         text-align: center;
-        flex-grow: 1;
       }
     }
-
+    
     .progress-bar-container {
       width: 100%;
       display: flex;
-      margin-top: 5px;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 10px;
       justify-content: center;
       gap: 2px;
+      padding: 0 16px; // Adjusted to prevent overflow.
 
       .progress-item {
         width: 50%;
-        height: 4px;
-        background-color: #ddeafe;
+        background-color: #DDEAFE;
       }
 
-      .progress-bar.active {
-        background-color: #1375fa;
+      .progress-bar.active div::after {
+        background-color: #1375FA;
       }
     }
 
     .stage-form-body {
       width: 100%;
+      padding: 0 16px; // Adjusted padding for mobile responsiveness.
       margin-top: 10px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
 
       .form-body-item {
-        margin-bottom: 20px;
         width: 100%;
+        margin-bottom: 16px;
 
         .area-label {
-          padding-left: 15px;
           font-size: 16px;
-          margin-bottom: 8px;
-
-          span {
-            color: #1375fa;
-          }
+          padding-bottom: 8px; // Adjust spacing
+          color: #000;
         }
 
         .textarea {
-          padding: 10px;
           width: 100%;
-          height: 140px; // Reduced height for better fit on mobile screens
+          height: auto;
+          padding: 10px;
           border-radius: 8px;
+          border: 1px solid #ddd;
         }
       }
 
       .checkbox-container {
-        padding: 0 15px;
-        margin-bottom: 10px;
+        padding: 0 16px;
+        margin: 8px 0;
 
         label {
           display: flex;
+          flex-direction: row;
           align-items: center;
+          justify-content: flex-start;
           gap: 10px;
 
           p {
             font-size: 15px;
             display: flex;
-            align-items: center;
-
+            
             span {
-              font-size: 15px;
               margin-left: 8px;
             }
           }
-        }
 
-        .user-info {
-          display: flex;
-          align-items: center;
-          margin-left: 18px;
-          background: #f9f9f9;
-          border-radius: 4px;
-          padding: 2px 8px;
+          .user-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 18px;
+            background: #F9F9F9;
+            border-radius: 4px;
+            padding: 4px 8px;
 
-          span {
-            color: #0d0d0d;
+            span {
+              color: #0D0D0D;
+            }
           }
         }
       }
     }
 
     .bottom {
-      padding: 15px 0;
+      margin-bottom: 20px;
       width: 100%;
+      padding: 0 16px;
       display: flex;
+      align-items: center;
       justify-content: center;
 
-      .continue-button {
-        width: 90%;
-        height: 48px; // Adjusted for better fit on mobile
-        background-color: #1375fa;
-        border-radius: 48px;
+      button {
+        width: 100%;
+        height: 48px; // Reduced height for buttons
+        background: #1375FA;
+        border-radius: 24px; // Adjust for better rounded corners
+
+        h6 {
+          font-size: 16px;
+          font-weight: 400;
+        }
       }
     }
   }
@@ -142,28 +146,36 @@
 
 .modal-content {
   width: 100%;
+  padding: 16px;
 
   .input-wrapper {
     width: 100%;
 
     .date-input {
       width: 100%;
-      padding: 8px;
+      padding: 12px;
+      border: 1px solid #ddd;
       border-radius: 8px;
     }
   }
 
   .bottom {
+    margin-bottom: 20px;
     width: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
 
     .save-button {
-      width: 90%;
-      height: 48px; // Adjusted for better fit
-      background-color: #1375fa;
-      border-radius: 48px;
+      width: 100%;
+      height: 48px;
+      background: #1375FA;
+      border-radius: 24px;
+
+      h6 {
+        font-size: 16px;
+        font-weight: 400;
+      }
     }
   }
 }
