@@ -218,7 +218,7 @@ const NewContractPage: React.FC = () => {
                 variants={{ initial: { x: 300, opacity: 0 }, animate: { x: 0, opacity: 1 }, exit: { x: -300, opacity: 0 } }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="form-body-item">
+                <div className="form-body-item first">
                   <Text className="area-label">Обязанность стороны 1 (Вы)</Text>
                   <Textarea
                     placeholder="Введите обязанность стороны 1"
@@ -227,9 +227,10 @@ const NewContractPage: React.FC = () => {
                     onFocus={() => handleFocus('obligation1')}
                     className="textarea"
                     status={errors.obligation1 ? 'error' : 'default'}
+                    inputMode="text"  // Ensures "Done" on iOS keyboard
                   />
                 </div>
-                <div className="form-body-item">
+                <div className="form-body-item second">
                   <Text className="area-label">Обязанность стороны 2</Text>
                   <Textarea
                     placeholder="Введите обязанность стороны 2"
@@ -239,6 +240,7 @@ const NewContractPage: React.FC = () => {
                     className="textarea"
                     disabled={selectedParty}
                     status={errors.obligation2 ? 'error' : 'default'}
+                    inputMode="text"  // Ensures "Done" on iOS keyboard
                   />
                 </div>
                 <div className="checkbox-container">
@@ -282,6 +284,7 @@ const NewContractPage: React.FC = () => {
                     onFocus={() => handleFocus('responsibility1')}
                     className="textarea"
                     status={errors.responsibility1 ? 'error' : 'default'}
+                    inputMode="text"  // Ensures "Done" on iOS keyboard
                   />
                 </div>
                 <div className="form-body-item">
@@ -294,6 +297,7 @@ const NewContractPage: React.FC = () => {
                     className="textarea"
                     disabled={selectedParty}
                     status={errors.responsibility2 ? 'error' : 'default'}
+                    inputMode="text"  // Ensures "Done" on iOS keyboard
                   />
                 </div>
                 <div className="checkbox-container">
