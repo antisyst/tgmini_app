@@ -69,6 +69,11 @@
 
           .form-body-item {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            gap: 20px 0;
 
             .area-label {
               padding-left: 22px;
@@ -80,6 +85,7 @@
             }
 
             div {
+              width: 89%;
               background: none;
             }
 
