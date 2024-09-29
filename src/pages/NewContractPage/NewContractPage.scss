@@ -73,7 +73,10 @@
 
           .form-body-item {
             width: 100%;
-            margin-top: 10px;
+
+            &.first{
+              margin-top: 10px;
+            }
 
             .area-label {
               padding-left: 22px;
