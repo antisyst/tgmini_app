@@ -1,208 +1,169 @@
 .full-obl-screen {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  align-items: center;
 
-    .obligations-layout {
-        width: 100%;
-        flex-grow: 1;
-        padding: 20px;
+  .obligations-layout {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    padding: 10px 20px; // Reduced padding for mobile screens
+    flex-direction: column;
+    background-color: #f9f9f9;
+    justify-content: flex-start;
+
+    .header-container {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      .back-button {
+        width: 26px;
+        height: 26px;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-
-        .header-container {
-            padding-top: env(safe-area-inset-top);
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 16px;
-            align-items: center;
-
-            .back-button {
-                width: 26px;
-                height: 26px;
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                background: none;
-                position: absolute;
-                left: 0;
-
-                img {
-                    width: 100%;
-                    height: auto;
-                }
-            }
-
-            .header-text {
-                margin: 0 auto;
-                text-align: center;
-            }
+        background: none;
+        img {
+          width: 100%;
+          height: auto;
         }
+      }
 
-        .progress-bar-container {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-top: 10px;
-            justify-content: center;
-            gap: 2px;
-
-            .progress-item {
-                width: 50%;
-                background-color: #DDEAFE;
-            }
-
-            .progress-bar.active div::after {
-                background-color: #1375FA;
-            }
-        }
-
-        .stage-form-body {
-            flex-grow: 1;
-            width: 100%;
-            margin-top: 10px;
-
-            .form-body-item {
-                width: 100%;
-                margin-bottom: 16px;
-
-                .area-label {
-                    padding-left: 22px;
-                    font-size: 16px;
-
-                    span {
-                        color: #1375FA;
-                    }
-                }
-
-                div {
-                    background: none;
-                }
-
-                label {
-                    height: 160px;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-                    margin-top: -10px;
-                    border-radius: 8px;
-                    width: 100%;
-                    height: 100%;
-
-                    textarea {
-                        padding: 10px;
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-
-                .textarea {
-                    height: 160px;
-                }
-            }
-
-            .checkbox-container {
-                padding: 0 22px;
-                margin: 4px;
-                margin-bottom: 7px;
-
-                label {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    gap: 10px;
-
-                    p {
-                        font-size: 15px;
-                        display: flex;
-
-                        span {
-                            font-size: 15px;
-                            margin-left: 8px;
-                        }
-                    }
-                }
-
-                .user-info {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    margin-left: 18px;
-                    background: #F9F9F9;
-                    border-radius: 4px;
-                    padding: 2px 8px;
-
-                    span {
-                        color: #0D0D0D;
-                    }
-                }
-            }
-        }
-
-        .bottom {
-            padding-bottom: env(safe-area-inset-bottom);
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            button {
-                width: 90%;
-                height: 58px;
-                background: #1375FA;
-                border-radius: 48px;
-
-                h6 {
-                    font-size: 18px;
-                    font-weight: 400;
-                }
-            }
-        }
+      .header-text {
+        text-align: center;
+        flex-grow: 1;
+      }
     }
-}
 
-.modal-content {
-    width: 100%;
+    .progress-bar-container {
+      width: 100%;
+      display: flex;
+      margin-top: 5px;
+      justify-content: center;
+      gap: 2px;
 
-    .input-wrapper {
+      .progress-item {
+        width: 50%;
+        height: 4px;
+        background-color: #ddeafe;
+      }
+
+      .progress-bar.active {
+        background-color: #1375fa;
+      }
+    }
+
+    .stage-form-body {
+      width: 100%;
+      margin-top: 10px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .form-body-item {
+        margin-bottom: 20px;
         width: 100%;
 
-        div {
-            padding-top: 0;
-            padding-left: 2px;
-            padding-right: 2px;
+        .area-label {
+          padding-left: 15px;
+          font-size: 16px;
+          margin-bottom: 8px;
+
+          span {
+            color: #1375fa;
+          }
         }
 
-        .date-input {
-            width: 100%;
+        .textarea {
+          padding: 10px;
+          width: 100%;
+          height: 140px; // Reduced height for better fit on mobile screens
+          border-radius: 8px;
         }
+      }
+
+      .checkbox-container {
+        padding: 0 15px;
+        margin-bottom: 10px;
+
+        label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          p {
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+
+            span {
+              font-size: 15px;
+              margin-left: 8px;
+            }
+          }
+        }
+
+        .user-info {
+          display: flex;
+          align-items: center;
+          margin-left: 18px;
+          background: #f9f9f9;
+          border-radius: 4px;
+          padding: 2px 8px;
+
+          span {
+            color: #0d0d0d;
+          }
+        }
+      }
     }
 
     .bottom {
-        padding-bottom: env(safe-area-inset-bottom);
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      padding: 15px 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
 
-        .save-button {
-            width: 90%;
-            height: 58px;
-            background: #1375FA;
-            border-radius: 48px;
-
-            h6 {
-                font-weight: 400;
-                font-size: 18px;
-            }
-        }
+      .continue-button {
+        width: 90%;
+        height: 48px; // Adjusted for better fit on mobile
+        background-color: #1375fa;
+        border-radius: 48px;
+      }
     }
+  }
+}
+
+.modal-content {
+  width: 100%;
+
+  .input-wrapper {
+    width: 100%;
+
+    .date-input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    .save-button {
+      width: 90%;
+      height: 48px; // Adjusted for better fit
+      background-color: #1375fa;
+      border-radius: 48px;
+    }
+  }
 }
