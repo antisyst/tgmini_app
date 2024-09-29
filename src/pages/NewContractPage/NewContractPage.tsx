@@ -31,6 +31,11 @@ const validateDate = (input: string): boolean => {
   return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
 };
 
+// Function to detect if the platform is iOS
+const isIOS = () => {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+};
+
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -181,7 +186,7 @@ const NewContractPage: React.FC = () => {
   };
 
   return (
-     <AppRoot>
+    <AppRoot>
       <FixedLayout vertical="top" className="full-obl-screen">
         <div className="obligations-layout">
           <div className="header-container">
@@ -380,21 +385,31 @@ const NewContractPage: React.FC = () => {
         </div>
         <div className="modal-content">
           <Text className="modal-title">Выберите дату окончания</Text>
-            <div className="input-wrapper">
-              <Input
-                type="text"
-                value={tempDate}
-                onChange={handleDateChange}
-                maxLength={10}
-                className="input date-input"
-                placeholder="дд.мм.гггг"
-              />
-            </div>
-            <FixedLayout vertical='bottom' className='bottom'>
-              <Button onClick={saveDate} className="save-button">
-                Сохранить
-              </Button>
-            </FixedLayout>
+
+          {/* Conditionally render iOS native time picker */}
+          {isIOS() ? (
+            <Input
+              type="date"
+              value={tempDate}
+              onChange={(e) => setTempDate(e.target.value)}
+              className="ios-date-picker"
+            />
+          ) : (
+            <Input
+              type="text"
+              value={tempDate}
+              onChange={handleDateChange}
+              maxLength={10}
+              className="input date-input"
+              placeholder="дд.мм.гггг"
+            />
+          )}
+
+          <FixedLayout vertical='bottom' className='bottom'>
+            <Button onClick={saveDate} className="save-button">
+              Сохранить
+            </Button>
+          </FixedLayout>
         </div>
       </Modal>
     </AppRoot>
@@ -402,4 +417,3 @@ const NewContractPage: React.FC = () => {
 };
 
 export default NewContractPage;
-
