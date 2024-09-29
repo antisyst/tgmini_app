@@ -31,7 +31,6 @@ const validateDate = (input: string): boolean => {
   return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
 };
 
-// Function to detect if the platform is iOS
 const isIOS = () => {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 };
@@ -186,7 +185,7 @@ const NewContractPage: React.FC = () => {
   };
 
   return (
-    <AppRoot>
+     <AppRoot>
       <FixedLayout vertical="top" className="full-obl-screen">
         <div className="obligations-layout">
           <div className="header-container">
@@ -389,18 +388,19 @@ const NewContractPage: React.FC = () => {
           {/* Conditionally render iOS native time picker */}
           {isIOS() ? (
             <Input
-              type="date"
+              type="datetime-local"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
               className="ios-date-picker"
             />
           ) : (
+            // Fallback date input for non-iOS devices
             <Input
               type="text"
               value={tempDate}
               onChange={handleDateChange}
               maxLength={10}
-              className="input date-input"
+              className="custom-date-picker"
               placeholder="дд.мм.гггг"
             />
           )}
