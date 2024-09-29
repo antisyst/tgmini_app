@@ -238,6 +238,13 @@
     border-top-right-radius: 24px;
     overflow: hidden;
 
+    .modal .modal-header {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    }
+    
     .modal-close-button {
       background: none;
       color: #0D0D0D;
