@@ -6,9 +6,6 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import ArrowIcon from '../../assets/arrow.svg';
-import { getFormattedDate } from '@/utils/getFormattedDate';
-import { validateDate } from '@/utils/validateDate';
-import { getFormattedDateForBackend } from '@/utils/getFormattedDateForBackend';
 import './NewContractPage.scss';
 
 const NewContractPage: React.FC = () => {
