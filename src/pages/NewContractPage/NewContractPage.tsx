@@ -6,7 +6,7 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import ArrowIcon from '../../assets/arrow.svg';
-import './ObligationsPage.scss';
+import './NewContractPage.scss';
 
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
