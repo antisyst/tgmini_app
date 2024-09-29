@@ -6,15 +6,29 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import ArrowIcon from '../../assets/arrow.svg';
-import { getFormattedDate } from '@/utils/getFormattedDate';
-import { validateDate } from '@/utils/validateDate';
-import { getFormattedDateForBackend } from '@/utils/getFormattedDateForBackend';
-import './NewContractPage.scss';
+import './ObligationsPage.scss';
 
-const NewContractPage: React.FC = () => {
+const ObligationsPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedContact } = location.state || {};
+
+  const getFormattedDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear());
+    return ${day}.${month}.${year};
+  };
+
+  const validateDate = (input: string): boolean => {
+    const datePattern = /^\d{2}\.\d{2}\.\d{4}$/;
+    if (!datePattern.test(input)) {
+      return false;
+    }
+    const [day, month, year] = input.split('.').map(Number);
+    const dateObj = new Date(year, month - 1, day);
+    return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
+  };
 
   const [obligation1, setObligation1] = useState('');
   const [obligation2, setObligation2] = useState('');
@@ -45,6 +59,11 @@ const NewContractPage: React.FC = () => {
     } else {
       setCurrentStep(1);
     }
+  };
+
+  const getFormattedDateForBackend = (date: string): string => {
+    const [day, month, year] = date.split('.');
+    return ${year}-${month}-${day};
   };
 
   const handleContinue = async () => {
@@ -91,16 +110,16 @@ const NewContractPage: React.FC = () => {
       try {
         const userId = retrieveLaunchParams()?.initData?.user?.id;
         const payload = {
-          senderId: `@${userId}`,
+          senderId: @${userId},
           recieverId: selectedContact.telegram_id,
           senderDuty: obligation1,
           recieverDuty: obligation2 || 'N/A',
           senderResponsobility: responsibility1,
           recieverResponsobility: responsibility2 || 'N/A',
-          agreementDate: getFormattedDateForBackend(date),
+          agreementDate: getFormattedDateForBackend(date), 
         };
 
-        const response = await axios.post(`http://localhost:8000/contract/generate_pdf`, payload);
+        const response = await axios.post(http://localhost:8000/contract/generate_pdf, payload);
 
         const { deal_id, pdf_path } = response.data.data;
 
@@ -151,7 +170,7 @@ const NewContractPage: React.FC = () => {
 
   const saveDate = () => {
     hapticFeedback.impactOccurred('medium');
-    if (validateDate(tempDate)) { 
+    if (validateDate(tempDate)) {
       setDate(tempDate);
       setErrors((prevErrors) => ({ ...prevErrors, date: false }));
       setIsDateModalOpen(false);
@@ -199,7 +218,7 @@ const NewContractPage: React.FC = () => {
                 variants={{ initial: { x: 300, opacity: 0 }, animate: { x: 0, opacity: 1 }, exit: { x: -300, opacity: 0 } }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="form-body-item first">
+                <div className="form-body-item">
                   <Text className="area-label">Обязанность стороны 1 (Вы)</Text>
                   <Textarea
                     placeholder="Введите обязанность стороны 1"
@@ -208,15 +227,9 @@ const NewContractPage: React.FC = () => {
                     onFocus={() => handleFocus('obligation1')}
                     className="textarea"
                     status={errors.obligation1 ? 'error' : 'default'}
-                    inputMode="text"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
                   />
                 </div>
-                <div className="form-body-item second">
+                <div className="form-body-item">
                   <Text className="area-label">Обязанность стороны 2</Text>
                   <Textarea
                     placeholder="Введите обязанность стороны 2"
@@ -226,12 +239,6 @@ const NewContractPage: React.FC = () => {
                     className="textarea"
                     disabled={selectedParty}
                     status={errors.obligation2 ? 'error' : 'default'}
-                    inputMode="text"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
                   />
                 </div>
                 <div className="checkbox-container">
@@ -275,12 +282,6 @@ const NewContractPage: React.FC = () => {
                     onFocus={() => handleFocus('responsibility1')}
                     className="textarea"
                     status={errors.responsibility1 ? 'error' : 'default'}
-                    inputMode="text"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
                   />
                 </div>
                 <div className="form-body-item">
@@ -293,12 +294,6 @@ const NewContractPage: React.FC = () => {
                     className="textarea"
                     disabled={selectedParty}
                     status={errors.responsibility2 ? 'error' : 'default'}
-                    inputMode="text"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.currentTarget.blur();
-                      }
-                    }}
                   />
                 </div>
                 <div className="checkbox-container">
@@ -325,7 +320,7 @@ const NewContractPage: React.FC = () => {
                       value={date}
                       onClick={openDateModal}
                       readOnly
-                      className={`input date-input ${errors.date ? 'error' : ''}`}
+                      className={input date-input ${errors.date ? 'error' : ''}}
                     />
                   </div>
                   {errors.date && (
@@ -381,4 +376,4 @@ const NewContractPage: React.FC = () => {
   );
 };
 
-export default NewContractPage;
+export default ObligationsPage;
