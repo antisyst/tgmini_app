@@ -31,9 +31,8 @@ const validateDate = (input: string): boolean => {
   return dateObj.getFullYear() === year && dateObj.getMonth() === month - 1 && dateObj.getDate() === day;
 };
 
-const isIOS = () => {
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-};
+// Detect if the user is on iOS
+const isIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
@@ -385,23 +384,22 @@ const NewContractPage: React.FC = () => {
         <div className="modal-content">
           <Text className="modal-title">Выберите дату окончания</Text>
 
-          {/* Conditionally render iOS native time picker */}
+          {/* Conditionally render native iOS spinner-style time picker */}
           {isIOS() ? (
             <Input
-              type="datetime-local"
+              type="date"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
               className="ios-date-picker"
             />
           ) : (
-            // Fallback date input for non-iOS devices
             <Input
               type="text"
               value={tempDate}
               onChange={handleDateChange}
-              maxLength={10}
               className="custom-date-picker"
               placeholder="дд.мм.гггг"
+              maxLength={10}
             />
           )}
 
