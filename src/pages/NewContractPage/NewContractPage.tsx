@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Modal } from '@telegram-apps/telegram-ui';
+import { AppRoot, Button, FixedLayout, Textarea, Text, Checkbox, Avatar, Input, Modal } from '@telegram-apps/telegram-ui';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -56,8 +56,6 @@ const NewContractPage: React.FC = () => {
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const [tempDate, setTempDate] = useState(date);
   const hapticFeedback = useHapticFeedback();
-  
-  const dateInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setDate(getFormattedDate(new Date()));
@@ -157,26 +155,21 @@ const NewContractPage: React.FC = () => {
     setSelectedParty(!selectedParty);
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value.replace(/[^\d]/g, '');
+    const formattedDate = input.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3');
+    setTempDate(formattedDate);
+  };
+
   const openDateModal = () => {
     hapticFeedback.impactOccurred('medium');
     setTempDate(date);
     setIsDateModalOpen(true);
-
-    // Auto-focus the date input to show the picker dropdown immediately
-    setTimeout(() => {
-      dateInputRef.current?.focus();
-    }, 300); // Adding a slight delay for the modal to open properly
   };
 
   const closeDateModal = () => {
     hapticFeedback.impactOccurred('medium');
     setIsDateModalOpen(false);
-  };
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
-    const formattedDate = input.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3'); // Format as dd.mm.yyyy
-    setTempDate(formattedDate);
   };
 
   const saveDate = () => {
@@ -350,7 +343,7 @@ const NewContractPage: React.FC = () => {
                 <div className="form-body-item">
                   <Text className="area-label">Дата окончания договора</Text>
                   <div className="form-input">
-                    <input
+                    <Input
                       type="text"
                       value={date}
                       onClick={openDateModal}
@@ -393,15 +386,14 @@ const NewContractPage: React.FC = () => {
 
           {/* Conditionally render native iOS spinner-style date picker */}
           {isIOS() ? (
-            <input
+            <Input
               type="date"
               value={tempDate}
               onChange={(e) => setTempDate(e.target.value)}
-              ref={dateInputRef} // Attach the ref to focus it
               className="ios-date-picker"
             />
           ) : (
-            <input
+            <Input
               type="text"
               value={tempDate}
               onChange={handleDateChange}
