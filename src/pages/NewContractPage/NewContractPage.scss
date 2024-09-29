@@ -117,11 +117,20 @@
             .textarea {
               height: 160px;
             }
+
+            .form-input {
+
+              div {
+                width: 100%;
+                margin: 0;
+              }
+            }
           }
 
           .checkbox-container {
             padding: 0 22px;
             margin-top: -10px;
+            margin-bottom: 12px;
 
             label {
               display: flex;
