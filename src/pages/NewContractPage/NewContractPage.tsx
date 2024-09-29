@@ -173,6 +173,12 @@ const NewContractPage: React.FC = () => {
     setIsDateModalOpen(false);
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
+    const formattedDate = input.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3'); // Format as dd.mm.yyyy
+    setTempDate(formattedDate);
+  };
+
   const saveDate = () => {
     hapticFeedback.impactOccurred('medium');
     if (validateDate(tempDate)) { 
