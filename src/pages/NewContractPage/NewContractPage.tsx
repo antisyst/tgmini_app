@@ -3,16 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AppRoot, Button, FixedLayout, Text, Avatar, Spinner } from '@telegram-apps/telegram-ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
-import axios from 'axios';
-import './NewContractPage.scss';
+import './PreviewContractPage.scss';
 import BackIcon from '../../assets/arrow.svg';
 
-const NewContractPage: React.FC = () => {
+const PreviewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const hapticFeedback = useHapticFeedback();
 
-  const { pdfPath, dealId, selectedContact } = location.state || {};
+  const { pdfPath = 'https://sccrtc.org/wp-content/uploads/2010/09/SampleContract-Shuttle.pdf', dealId = '12345', selectedContact = { telegram_id: 'user_123', avatar_url: 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp' } } = location.state || {};
 
   useEffect(() => {
     if (!pdfPath || !dealId) {
@@ -33,15 +32,11 @@ const NewContractPage: React.FC = () => {
     hapticFeedback.impactOccurred('medium');
     setIsSending(true);
     try {
-      const response = await axios.patch(
-        `http://localhost:8000/contract/send/${dealId}/${selectedContact.telegram_id}`
-      );
-      if (response.data.success) {
+      // Simulate sending contract without backend request
+      console.log(`Sending contract to user ${selectedContact.telegram_id} for deal ${dealId}`);
+      setTimeout(() => {
         navigate('/contract-sent', { state: { selectedContact } });
-      } else {
-        console.error('Failed to send the contract:', response.data.message);
-        alert(`Ошибка: ${response.data.message}`);
-      }
+      }, 1000); // Simulate a delay
     } catch (error) {
       console.error('Error sending contract:', error);
       alert('Произошла ошибка при отправке договора. Пожалуйста, попробуйте снова.');
@@ -135,4 +130,4 @@ const NewContractPage: React.FC = () => {
   );
 };
 
-export default NewContractPage;
+export default PreviewContractPage;
