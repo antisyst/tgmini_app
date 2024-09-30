@@ -5,7 +5,7 @@ import { useHapticFeedback } from '@telegram-apps/sdk-react';
 import './NewContractPage.scss';
 import SentIcon from '../../assets/search.svg';
 
-const ContractSentPage: React.FC = () => {
+const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const hapticFeedback = useHapticFeedback(); 
 
@@ -33,4 +33,4 @@ const ContractSentPage: React.FC = () => {
   );
 };
 
-export default ContractSentPage;
+export default NewContractPage;
