@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoot, FixedLayout, Text, TabsList, Avatar, Button, Modal } from '@telegram-apps/telegram-ui';
 import ArrowIcon from '../../assets/arrow.svg';
 import CloseIcon from '../../assets/arrow.svg';
-import BackWardIcon from '../../assets/flip-backward.svg';
+import BackWardIcon from '../../assets/arrow.svg';
 import './NewContractPage.scss'
 
 // Define the ContractObject interface directly in the page
