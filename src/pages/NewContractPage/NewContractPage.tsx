@@ -3,10 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AppRoot, Button, FixedLayout, Text, Avatar, Spinner } from '@telegram-apps/telegram-ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
-import './PreviewContractPage.scss';
+import './NewContractPage.scss';
 import BackIcon from '../../assets/arrow.svg';
 
-const PreviewContractPage: React.FC = () => {
+const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const hapticFeedback = useHapticFeedback();
@@ -130,4 +130,4 @@ const PreviewContractPage: React.FC = () => {
   );
 };
 
-export default PreviewContractPage;
+export default NewContractPage;
