@@ -67,9 +67,8 @@ const NewContractPage: React.FC = () => {
             ) : error ? (
               <Text className="error-text">{error}</Text>
             ) : (
-              <embed
+              <iframe
                 src={examplePdfPath}
-                type="application/pdf"
                 width="100%"
                 height="100%"
                 title="Contract Preview"
