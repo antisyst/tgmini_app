@@ -10,7 +10,7 @@ const NewContractPage: React.FC = () => {
   const location = useLocation();
   const hapticFeedback = useHapticFeedback();
 
-  const examplePdfPath = 'https://github.com/antisyst/tgmini_app/blob/main/src/assets/66fc29098ee8a02d35446341.pdf';
+  const examplePdfPath = 'https://morth.nic.in/sites/default/files/dd12-13_0.pdf';
   const { selectedContact } = location.state || {};
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
