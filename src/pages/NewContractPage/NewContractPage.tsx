@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoot, FixedLayout, Text, TabsList, Avatar, Button, Modal } from '@telegram-apps/telegram-ui';
-import { ContractObject } from '@/interfaces/ContractObject';
 import './NewContractPage.scss';
 import ArrowIcon from '../../assets/arrow.svg';
 import CloseIcon from '../../assets/arrow.svg';
 import BackWardIcon from '../../assets/flip-backward.svg';
+
+// Define the ContractObject interface inside this file
+export interface ContractObject {
+  _id: string;
+  initial_sender_id: string;
+  initial_reciever_id: string;
+  current_sender_id: string;
+  initial_sender_duty: string;
+  initial_reciever_duty: string;
+  initial_sender_responsobility: string;
+  initial_reciever_responsobility: string;
+  agreement_date: Date;
+  is_archived: boolean;
+  is_sent: boolean;
+  is_accepted: boolean;
+  pdf_path: string;
+}
 
 const NewContractPage: React.FC = () => {
   const navigate = useNavigate();
@@ -37,59 +53,123 @@ const NewContractPage: React.FC = () => {
       _id: '1',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 1',
+      initial_reciever_id: 'User A',
+      current_sender_id: 'User 1',
+      initial_sender_duty: 'Duty 1',
+      initial_reciever_duty: 'Duty A',
+      initial_sender_responsobility: 'Responsibility 1',
+      initial_reciever_responsobility: 'Responsibility A',
       pdf_path: 'https://example.com/demo-contract-1.pdf',
       is_archived: false,
+      is_sent: true,
+      is_accepted: false,
     },
     {
       _id: '2',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 2',
+      initial_reciever_id: 'User B',
+      current_sender_id: 'User 2',
+      initial_sender_duty: 'Duty 2',
+      initial_reciever_duty: 'Duty B',
+      initial_sender_responsobility: 'Responsibility 2',
+      initial_reciever_responsobility: 'Responsibility B',
       pdf_path: 'https://example.com/demo-contract-2.pdf',
       is_archived: true,
+      is_sent: true,
+      is_accepted: true,
     },
     // Add six more contract items for demo purposes
     {
       _id: '3',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 3',
+      initial_reciever_id: 'User C',
+      current_sender_id: 'User 3',
+      initial_sender_duty: 'Duty 3',
+      initial_reciever_duty: 'Duty C',
+      initial_sender_responsobility: 'Responsibility 3',
+      initial_reciever_responsobility: 'Responsibility C',
       pdf_path: 'https://example.com/demo-contract-3.pdf',
       is_archived: false,
+      is_sent: true,
+      is_accepted: false,
     },
     {
       _id: '4',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 4',
+      initial_reciever_id: 'User D',
+      current_sender_id: 'User 4',
+      initial_sender_duty: 'Duty 4',
+      initial_reciever_duty: 'Duty D',
+      initial_sender_responsobility: 'Responsibility 4',
+      initial_reciever_responsobility: 'Responsibility D',
       pdf_path: 'https://example.com/demo-contract-4.pdf',
       is_archived: true,
+      is_sent: true,
+      is_accepted: true,
     },
     {
       _id: '5',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 5',
+      initial_reciever_id: 'User E',
+      current_sender_id: 'User 5',
+      initial_sender_duty: 'Duty 5',
+      initial_reciever_duty: 'Duty E',
+      initial_sender_responsobility: 'Responsibility 5',
+      initial_reciever_responsobility: 'Responsibility E',
       pdf_path: 'https://example.com/demo-contract-5.pdf',
       is_archived: false,
+      is_sent: true,
+      is_accepted: false,
     },
     {
       _id: '6',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 6',
+      initial_reciever_id: 'User F',
+      current_sender_id: 'User 6',
+      initial_sender_duty: 'Duty 6',
+      initial_reciever_duty: 'Duty F',
+      initial_sender_responsobility: 'Responsibility 6',
+      initial_reciever_responsobility: 'Responsibility F',
       pdf_path: 'https://example.com/demo-contract-6.pdf',
       is_archived: false,
+      is_sent: true,
+      is_accepted: false,
     },
     {
       _id: '7',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 7',
+      initial_reciever_id: 'User G',
+      current_sender_id: 'User 7',
+      initial_sender_duty: 'Duty 7',
+      initial_reciever_duty: 'Duty G',
+      initial_sender_responsobility: 'Responsibility 7',
+      initial_reciever_responsobility: 'Responsibility G',
       pdf_path: 'https://example.com/demo-contract-7.pdf',
       is_archived: false,
+      is_sent: true,
+      is_accepted: false,
     },
     {
       _id: '8',
       agreement_date: new Date().toISOString(),
       initial_sender_id: 'User 8',
+      initial_reciever_id: 'User H',
+      current_sender_id: 'User 8',
+      initial_sender_duty: 'Duty 8',
+      initial_reciever_duty: 'Duty H',
+      initial_sender_responsobility: 'Responsibility 8',
+      initial_reciever_responsobility: 'Responsibility H',
       pdf_path: 'https://example.com/demo-contract-8.pdf',
       is_archived: true,
-    },
+      is_sent: true,
+      is_accepted: true,
+    }
   ];
 
   useEffect(() => {
