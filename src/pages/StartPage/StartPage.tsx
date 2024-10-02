@@ -7,7 +7,6 @@ const StartPage: React.FC = () => {
   const pdfFileUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
   useEffect(() => {
-    // Set the external PDF URL directly
     setPdfUrl(pdfFileUrl);
   }, []);
 
@@ -15,11 +14,14 @@ const StartPage: React.FC = () => {
     <div style={{ padding: '20px', textAlign: 'center', height: '100vh' }}>
       <h2>PDF Preview</h2>
       {pdfUrl ? (
-        <iframe
-          src={pdfUrl}
-          title="PDF Preview"
-          style={{ width: '100%', height: '80vh', border: '1px solid #ccc' }}
-        />
+        <object
+          data={pdfUrl}
+          type="application/pdf"
+          width="100%"
+          height="80vh"
+        >
+          <p>Your browser does not support PDFs. Please <a href={pdfUrl}>download the PDF</a> to view it.</p>
+        </object>
       ) : (
         <p>Loading PDF...</p>
       )}
