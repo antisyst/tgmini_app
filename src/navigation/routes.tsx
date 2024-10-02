@@ -4,7 +4,7 @@ import DocumentPage from '@/pages/DocumentPage/DocumentPage';
 import NewContractPage from '@/pages/NewContractPage/NewContractPage';
 
 export const routes = [
-  { path: '/', Component: NewContractPage },
+  { path: '/', Component: StartPage },
   { path: '/registration', Component: RegistrationPage },
   { path: '/documents', Component: DocumentPage },
   { path: '/new-contract', Component: StartPage }
