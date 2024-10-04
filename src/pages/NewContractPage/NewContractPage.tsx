@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLogo from '../../assets/logo.svg';
 import { AppRoot, Button, FixedLayout } from '@telegram-apps/telegram-ui';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
-import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import './NewContractPage.scss';
 
 const NewContractPage: React.FC = () => {
