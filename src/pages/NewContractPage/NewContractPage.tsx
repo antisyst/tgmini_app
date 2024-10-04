@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLogo from '../../assets/logo.svg';
 import { AppRoot, Button, FixedLayout, Spinner } from '@telegram-apps/telegram-ui';
@@ -7,8 +7,6 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import './NewContractPage.scss';
 
 const NewContractPage: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [isRequesting, setIsRequesting] = useState(false); 
   const [hasCheckedRegistration, setHasCheckedRegistration] = useState(false);
   const navigate = useNavigate();
   const hapticFeedback = useHapticFeedback();
@@ -19,13 +17,6 @@ const NewContractPage: React.FC = () => {
     navigate('/registration');
   };
 
-  if (loading) {
-    return (
-      <AppRoot>
-        <Spinner size="l" className="spinner-centered" />
-      </AppRoot>
-    );
-  }
 
   return (
     <AppRoot>
