@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLogo from '../../assets/logo.svg';
-import { AppRoot, Button, FixedLayout, Spinner } from '@telegram-apps/telegram-ui';
+import { AppRoot, Button, FixedLayout } from '@telegram-apps/telegram-ui';
 import { useHapticFeedback } from '@telegram-apps/sdk-react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import './NewContractPage.scss';
 
 const NewContractPage: React.FC = () => {
-  const [hasCheckedRegistration, setHasCheckedRegistration] = useState(false);
   const navigate = useNavigate();
   const hapticFeedback = useHapticFeedback();
-  const { initData } = retrieveLaunchParams();
 
   const handleStart = () => {
     hapticFeedback.impactOccurred('medium');
