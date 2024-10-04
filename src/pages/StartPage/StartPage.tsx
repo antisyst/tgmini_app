@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react"; // Make sure useRef is imported
 import { useNavigate } from "react-router-dom";
 import {
   AppRoot,
@@ -9,13 +9,10 @@ import {
   Button,
   Modal,
 } from "@telegram-apps/telegram-ui";
-import { getFormattedDate } from "@/utils/helpers/getFormattedDate";
+import { getFormattedDate } from "@/utils/helpers/getFormattedDate"; // Ensure this is correctly imported
+import ArrowIcon from "../../assets/arrow.svg";  // Keep only the necessary icons
+import CloseIcon from "../../assets/arrow.svg"; // Keep only the necessary icons
 import "./StartPage.scss";
-import ArrowIcon from "../../assets/arrow.svg";
-import CloseIcon from "../../assets/arrow.svg";
-import BackWardIcon from "../../assets/flip-backward.svg";
-
-const TABS: ("active" | "archive" | "all")[] = ["active", "archive", "all"];
 
 const StartPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,9 +21,6 @@ const StartPage: React.FC = () => {
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // Sample PDF URL for testing
-  const samplePdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; // Replace with your PDF
 
   const handleBack = () => {
     navigate("/documents");
@@ -46,6 +40,8 @@ const StartPage: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const samplePdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; // Static PDF URL
 
   return (
     <AppRoot>
