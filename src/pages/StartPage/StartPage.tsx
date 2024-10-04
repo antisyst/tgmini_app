@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"; // Make sure useRef is imported
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AppRoot,
@@ -9,18 +9,26 @@ import {
   Button,
   Modal,
 } from "@telegram-apps/telegram-ui";
-import { getFormattedDate } from "@/utils/helpers/getFormattedDate"; // Ensure this is correctly imported
-import ArrowIcon from "../../assets/arrow.svg";  // Keep only the necessary icons
-import CloseIcon from "../../assets/arrow.svg"; // Keep only the necessary icons
-import "./StartPage.scss";
 
+
+// Helper function for date formatting
+const getFormattedDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear());
+  return `${day}.${month}.${year}`;
+};
+
+// Main component
 const StartPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState<"active" | "archive" | "all">(
     "active"
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Sample PDF URL for testing
+  const samplePdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; // Replace with your PDF
 
   const handleBack = () => {
     navigate("/documents");
@@ -28,9 +36,6 @@ const StartPage: React.FC = () => {
 
   const handleTabClick = (tab: "active" | "archive" | "all") => {
     setSelectedTab(tab);
-    if (contentRef.current) {
-      contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
   };
 
   const handleContractClick = () => {
@@ -41,15 +46,13 @@ const StartPage: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const samplePdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; // Static PDF URL
-
   return (
     <AppRoot>
       <FixedLayout vertical="top" className="full-screen">
         <div className="outgoing-layout">
           <div className="header">
             <Button className="back-button" onClick={handleBack}>
-              <img src={ArrowIcon} alt="Back" />
+              Arrow
             </Button>
             <Text className="header-text">Исходящие</Text>
           </div>
@@ -75,12 +78,9 @@ const StartPage: React.FC = () => {
               </TabsList.Item>
             </TabsList>
           </div>
-          <div className="content" ref={contentRef}>
+          <div className="content">
             <div className="contracts-list">
-              <div
-                className="contract-item"
-                onClick={handleContractClick}
-              >
+              <div className="contract-item" onClick={handleContractClick}>
                 <div className="first-side">
                   <Text Component="span">Дата окончания договора</Text>
                   <Text Component="p">{getFormattedDate(new Date())}</Text>
@@ -95,7 +95,7 @@ const StartPage: React.FC = () => {
                       </div>
                     </div>
                     <div className="arrow">
-                      <img src={ArrowIcon} alt="Arrow" />
+                      Arrow
                     </div>
                     <div className="breadrumbs-item">
                       <Text>Вы</Text>
@@ -107,6 +107,7 @@ const StartPage: React.FC = () => {
           </div>
         </div>
       </FixedLayout>
+
       {isModalOpen && (
         <Modal
           open={isModalOpen}
@@ -115,7 +116,7 @@ const StartPage: React.FC = () => {
         >
           <div className="contract-modal-header">
             <Button className="close-button" onClick={closeModal}>
-              <img src={CloseIcon} alt="Close" />
+              Close
             </Button>
             <Text Component="h2" className="header-text">Договор</Text>
           </div>
